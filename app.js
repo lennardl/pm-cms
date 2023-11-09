@@ -56,3 +56,7 @@ app.get('*', (req, res) => {
 app.listen(port, ()=> {
     console.log('App Running');
 });
+
+app.get("/test", (_req, res) => {
+    res.status(200).send("Hello world");
+  });
