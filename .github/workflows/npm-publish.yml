@@ -18,14 +18,11 @@ jobs:
             USER_NAME: ${{secrets.USER_NAME}}
 
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
 
               # Now we have got the access of EC2 and we will start the deploy .
-              cd /home/ubuntu/pm-ejs
-              which npm && echo "npm exist" || sudo apt-get install -y npm
-              which git && echo "git exist" || sudo apt-get install -y git
-              which pm2 && echo "pm2 exist" || sudo apt-get install -y pm2
+              cd /home/ubuntu/pm-cms
               git checkout main 
               git fetch --all 
               git reset --hard origin/main 
