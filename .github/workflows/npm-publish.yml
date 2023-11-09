@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  Deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2 
+      - name: Build & Deploy
+        env:
+            PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            HOSTNAME: ${{secrets.HOST_NAME}}
+            USER_NAME: ${{secrets.USER_NAME}}
+
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+
+              # Now we have got the access of EC2 and we will start the deploy .
+              cd /home/ubuntu/pm-ejs
+              which npm && echo "npm exist" || sudo apt-get install -y npm
+              which git && echo "git exist" || sudo apt-get install -y git
+              which pm2 && echo "pm2 exist" || sudo apt-get install -y pm2
+              git checkout main 
+              git fetch --all 
+              git reset --hard origin/main 
+              git pull origin main 
+              sudo npm i 
+              sudo pm2 stop server.js
+              sudo pm2 start server.js
+              '
