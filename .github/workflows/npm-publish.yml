@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    secrets:
+    env:
       MONGODB_URI: ${{ secrets.MONGODB_URI }}
     runs-on: self-hosted
     strategy:
