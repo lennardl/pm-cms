@@ -6,6 +6,8 @@ on:
 
 jobs:
   build:
+    secrets:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
     runs-on: self-hosted
     strategy:
       matrix:
@@ -19,5 +21,3 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    secrets:
-      MONGODB_URI: ${{ secrets.MONGODB_URI }}
