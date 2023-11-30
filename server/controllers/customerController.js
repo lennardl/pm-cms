@@ -8,10 +8,10 @@ exports.homepage = async (req, res) => {
     console.log(messages);
 
     const locals = {
-        title:'PM Training Thingy'
+        title:'PM Training - CMS'
     }
 
-    let perPage = 2;
+    let perPage = 6;
     let page = req.query.page || 1;
 
     try {
